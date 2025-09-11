@@ -1,325 +1,411 @@
-# Flows App Template
+# Notion - Flows App
 
-A template repository for creating new Flows apps with best practices and CI/CD built-in.
+A comprehensive Notion integration that brings the full power of Notion's workspace management to your Flows workflows. Create pages, manage databases, manipulate content, and automate your Notion workspace with ease.
 
-## Quick Start
+## Features
 
-1. **Use this template** - Click "Use this template" button to create a new repository
-2. **Run setup** - `npm run setup` to customize placeholders automatically
-3. **Implement your logic** - Add blocks and customize configuration
-4. **Set up CI/CD** - Configure branch protection and deployment
-5. **Release** - Tag and release your app
+This app provides extensive Notion capabilities organized into functional categories:
 
-## Template Structure
+### Page Management
+- Create new pages with rich content
+- Retrieve page details and properties
+- Update existing pages
+- Archive or delete pages
 
-```
-├── .github/workflows/ci.yml    # CI/CD pipeline
-├── .gitignore                  # Git ignore rules
-├── package.json                # Dependencies and scripts
-├── tsconfig.json              # TypeScript configuration
-├── main.ts                    # App definition
-├── types.ts                   # Type definitions
-├── blocks/                    # Block implementations
-│   ├── index.ts              # Block registry and exports
-│   └── exampleBlock.ts       # Example block implementation
-├── setup.sh                  # Automated setup script
-└── README.md                 # This file
-```
+### Database Operations
+- Query databases with filters and sorting
+- Create new databases with custom schemas
+- Update database properties
+- Get database schema and structure
 
-## Customization Guide
+### Content Manipulation
+- Append blocks to pages (text, headings, lists, etc.)
+- Update existing blocks
+- Delete blocks
+- Retrieve block children and structure
 
-### 1. Replace Placeholders
+### Search and Discovery
+- Search across your entire workspace
+- List all accessible databases
+- Filter by object type (page or database)
 
-Find and replace these placeholders throughout the codebase:
+### Collaboration
+- Create comments on pages and discussions
+- Retrieve comment threads
+- Support for rich text formatting in comments
 
-- `{{APP_NAME}}` - Your app name (e.g., "Slack Integration")
-- `{{APP_DESCRIPTION}}` - Brief description of your app
+### User Management
+- Get user information
+- List all workspace users
+- Retrieve bot user details
 
-**Files to update:**
+### Utility Functions
+- Validate API connection
+- Format rich text with advanced styling
+- Parse and transform Notion properties
 
-- `package.json` - name and description fields
-- `main.ts` - app name and description
-- `types.ts` - JSDoc comments
-- `README.md` - update this file
+## Setup
 
-### 2. Customize Configuration
+### 1. Create a Notion Integration
 
-In `main.ts`, modify the `config` object:
+1. Visit [Notion Integrations](https://www.notion.so/my-integrations)
+2. Click "New integration"
+3. Configure your integration:
+   - Give it a descriptive name (e.g., "Flows Automation")
+   - Select the workspace you want to connect
+   - Choose appropriate capabilities (Read, Update, Insert content)
+4. Copy the "Internal Integration Token" (starts with `secret_`)
 
-```typescript
-config: {
-  type: "object",
-  properties: {
-    apiKey: {
-      type: "string",
-      title: "API Key",
-      description: "Your service API key",
-      secret: true  // This makes it a password field
-    },
-    baseUrl: {
-      type: "string",
-      title: "Base URL",
-      description: "API base URL",
-      default: "https://api.example.com"
-    }
-  },
-  required: ["apiKey"]  // Required fields
-}
-```
+### 2. Install the App
 
-### 3. Implement Your Blocks
+1. Add the Notion app to your Flows workspace
+2. Paste your Integration Token in the configuration
+3. Optionally set:
+   - **Default Workspace Name** - For reference and logging
+   - **Retry Attempts** - Number of retries for failed API calls (default: 3)
+   - **Request Timeout** - Max wait time for API responses in ms (default: 30000)
 
-The template includes a clean block structure. Blocks are organized in the `blocks/` directory:
+### 3. Share Pages and Databases
 
-#### Adding a New Block
+**Important:** Your integration must be explicitly shared with pages and databases:
 
-1. **Create the block file** (e.g., `blocks/myNewBlock.ts`):
+1. Open any Notion page or database you want to access
+2. Click "Share" in the top-right corner
+3. Click "Invite" and search for your integration name
+4. Select your integration and click "Invite"
+5. Repeat for all pages/databases you want to automate
 
-```typescript
-import { AppBlock, EventInput } from "@slflows/sdk";
+## Block Reference
 
-export const myNewBlock: AppBlock = {
-  name: "Your Action Name",
-  description: "What your block does",
-  category: "Your Category",
+### Page Operations
 
-  inputs: {
-    default: {
-      name: "Input Name",
-      description: "What users need to provide",
-      config: {
-        // Define your input schema here
-        type: "object",
-        properties: {
-          message: {
-            type: "string",
-            title: "Message",
-            description: "Input description",
-          },
-        },
-        required: ["message"],
-      },
-      onEvent: async (input: EventInput, { events }) => {
-        // Your logic here
-        const message = input.params.message as string;
-        const apiKey = input.app.config.apiKey as string;
+#### Create Page
+Creates a new page in your workspace.
 
-        // Call your external API, process data, etc.
+**Inputs:**
+- `parent` - Parent page or database ID
+- `title` - Page title
+- `properties` - Database properties (if parent is a database)
+- `children` - Initial content blocks
+- `icon` - Page icon (emoji or URL)
+- `cover` - Cover image URL
 
-        // Just emit the result directly - don't wrap in success object
-        await events.emit({
-          result: "your result",
-        });
-      },
-    },
-  },
+#### Get Page
+Retrieves complete page information.
 
-  outputs: {
-    default: {
-      name: "Output Name",
-      description: "What your block returns",
-      default: true,
-      type: {
-        // Define your output schema here
-        type: "object",
-        properties: {
-          result: { type: "string" },
-        },
-        required: ["result"],
-      } as any,
-    },
-  },
-};
-```
+**Inputs:**
+- `pageId` - The page ID to retrieve
 
-2. **Register the block** in `blocks/index.ts`:
+**Output:**
+- Full page object with properties, parent, and metadata
 
-```typescript
-import { myNewBlock } from "./myNewBlock.ts";
+#### Update Page
+Modifies an existing page's properties.
 
-export const blocks = {
-  example: exampleBlock,
-  myNew: myNewBlock, // Add your block here
-} as const;
+**Inputs:**
+- `pageId` - The page ID to update
+- `properties` - Properties to update
+- `archived` - Archive status
+- `icon` - New icon
+- `cover` - New cover image
 
-export { myNewBlock }; // Export for external use
-```
+#### Delete Page
+Permanently deletes or archives a page.
 
-That's it! The block will automatically be included in your app via `Object.values(blocks)` in `main.ts`.
+**Inputs:**
+- `pageId` - The page ID to delete
+- `permanently` - If true, permanently delete; otherwise archive
+
+### Database Operations
+
+#### Query Database
+Searches and filters database entries.
+
+**Inputs:**
+- `databaseId` - The database ID to query
+- `filter` - Filter conditions
+- `sorts` - Sort criteria
+- `startCursor` - Pagination cursor
+- `pageSize` - Results per page (max: 100)
+
+**Output:**
+- `results` - Array of database pages
+- `hasMore` - More results available
+- `nextCursor` - Cursor for next page
+
+#### Create Database
+Creates a new database with custom schema.
+
+**Inputs:**
+- `parent` - Parent page ID
+- `title` - Database title
+- `properties` - Property schema definition
+
+#### Get Database Schema
+Retrieves database structure and properties.
+
+**Inputs:**
+- `databaseId` - The database ID
+
+**Output:**
+- Complete schema with property definitions
+
+### Content Blocks
+
+#### Append Block Children
+Adds new content blocks to a page.
+
+**Inputs:**
+- `blockId` - Parent block or page ID
+- `children` - Array of blocks to append
+
+**Supported Block Types:**
+- Paragraph, Heading 1-3
+- Bulleted/Numbered lists
+- To-do items
+- Toggle lists
+- Code blocks
+- Quotes, Callouts
+- Dividers
+- And more...
+
+#### Update Block
+Modifies an existing content block.
+
+**Inputs:**
+- `blockId` - The block ID to update
+- `content` - New block content
+- `archived` - Archive status
+
+#### Get Block Children
+Retrieves child blocks of a parent.
+
+**Inputs:**
+- `blockId` - Parent block ID
+- `startCursor` - Pagination cursor
+- `pageSize` - Results per page
+
+### Search and Discovery
+
+#### Search
+Searches across your entire workspace.
+
+**Inputs:**
+- `query` - Search query text
+- `filter` - Filter by object type (page/database)
+- `sort` - Sort direction and timestamp type
+- `startCursor` - Pagination cursor
+- `pageSize` - Results per page
+
+#### List Databases
+Lists all accessible databases.
+
+**Inputs:**
+- `startCursor` - Pagination cursor
+- `pageSize` - Results per page
+
+### Comments
+
+#### Create Comment
+Adds a comment to a page or discussion.
+
+**Inputs:**
+- `parent` - Page ID or discussion ID
+- `richText` - Comment content with formatting
+
+#### Get Comments
+Retrieves comments from a page or block.
+
+**Inputs:**
+- `blockId` - Block or page ID
+- `startCursor` - Pagination cursor
+- `pageSize` - Results per page
+
+### User Management
+
+#### Get User
+Retrieves information about a specific user.
+
+**Inputs:**
+- `userId` - The user ID
+
+#### List Users
+Lists all users in the workspace.
+
+**Inputs:**
+- `startCursor` - Pagination cursor
+- `pageSize` - Results per page
+
+#### Get Bot User
+Retrieves information about the integration bot.
+
+### Utility Blocks
+
+#### Validate Connection
+Tests the API connection and permissions.
+
+**Output:**
+- `connected` - Connection status
+- `workspace` - Workspace details
+- `botUser` - Bot user information
+
+#### Format Rich Text
+Creates formatted text for Notion.
+
+**Inputs:**
+- `text` - Plain text content
+- `bold`, `italic`, `strikethrough`, `underline`, `code` - Formatting options
+- `color` - Text or background color
+- `link` - URL to link to
+
+#### Parse Properties
+Extracts and transforms Notion properties.
+
+**Inputs:**
+- `properties` - Raw Notion properties object
+- `includeFormulas` - Include computed formula values
+- `includeRollups` - Include rollup calculations
 
 ## Development
 
 ### Prerequisites
 
-- Node.js 20+
-- npm
+- Node.js 18+
+- npm or yarn
+- Flows CLI (`@useflows/flowctl`)
 
-### Setup
+### Scripts
 
 ```bash
+# Install dependencies
 npm install
-npm run setup        # Interactive setup to customize template
+
+# Type checking
+npm run typecheck
+
+# Format code
+npm run format
+
+# Bundle the app
+npm run bundle
 ```
 
-### Available Scripts
+### Project Structure
 
-```bash
-npm run setup        # Customize template placeholders
-npm run typecheck    # Type checking
-npm run format       # Code formatting
-npm run bundle       # Create deployment bundle
 ```
-
-### Testing Your App
-
-1. Run type checking: `npm run typecheck`
-2. Format code: `npm run format`
-3. Create bundle: `npm run bundle`
-
-**Note**: Initial `npm run typecheck` will show SDK import errors until you customize the template. This is expected - the SDK will be available when the app runs in the Flows environment.
-
-## CI/CD Pipeline
-
-The template includes a complete CI/CD pipeline in `.github/workflows/ci.yml`:
-
-### Continuous Integration
-
-- **Triggers**: All branch pushes (except main)
-- **Steps**: Type check, format validation, bundling
-- **Quality Gates**: Must pass all checks to merge
-
-### Automated Releases
-
-- **Triggers**: Semver tags (v1.0.0, v2.1.3, etc.)
-- **Process**:
-  1. Runs full CI validation
-  2. Creates GitHub release with bundle
-  3. Updates version registry (`versions.json`)
-  4. Pushes registry to main branch
-
-### Version Registry
-
-The pipeline automatically maintains a `versions.json` file:
-
-```json
-{
-  "versions": [
-    {
-      "version": "1.0.0",
-      "artifactUrl": "https://github.com/user/repo/releases/download/v1.0.0/bundle.tar.gz",
-      "artifactChecksum": "sha256:abc123..."
-    }
-  ]
-}
+notion/
+├── blocks/                   # Block implementations
+│   ├── pages.ts             # Page management blocks
+│   ├── databases.ts         # Database operation blocks
+│   ├── content.ts           # Content manipulation blocks
+│   ├── search.ts            # Search and discovery blocks
+│   ├── comments.ts          # Comment management blocks
+│   ├── users.ts             # User management blocks
+│   ├── utility.ts           # Utility blocks
+│   └── index.ts             # Block registry
+├── utils/                   # Shared utilities
+│   └── notionClient.ts      # Notion API client wrapper
+├── main.ts                  # App definition and configuration
+├── package.json             # Dependencies and scripts
+└── tsconfig.json           # TypeScript configuration
 ```
-
-## Repository Setup
-
-### 1. Branch Protection (Recommended)
-
-Configure branch protection for `main`:
-
-- Require pull request reviews
-- Require status checks (CI)
-- Allow GitHub Actions bot to bypass (for version registry updates)
-
-### 2. Repository Settings
-
-- Enable "Template repository" if this will be reused
-- Configure secrets if needed for external services
-- Set up branch protection rules
-
-## Deployment
-
-### Creating Releases
-
-1. **Ensure main is clean**: All changes merged and CI passing
-2. **Create and push tag**:
-   ```bash
-   git tag v1.0.0
-   git push origin v1.0.0
-   ```
-3. **Automated process**: CI creates release and updates registry
-4. **Verify**: Check GitHub releases and `versions.json` in main
-
-### Versioning
-
-Follow [Semantic Versioning](https://semver.org/):
-
-- `v1.0.0` - Major release (breaking changes)
-- `v1.1.0` - Minor release (new features)
-- `v1.0.1` - Patch release (bug fixes)
 
 ## Best Practices
 
-### Code Organization
+### Performance Optimization
 
-- Keep `main.ts` focused on app definition
-- Use `types.ts` for all TypeScript definitions
-- Document your blocks and configuration clearly
+- Use pagination for large datasets (max 100 items per request)
+- Cache frequently accessed database schemas
+- Batch operations when possible
+- Use filters to reduce API calls
 
 ### Error Handling
 
-- Let errors bubble up naturally - don't catch and wrap them
-- Use descriptive error messages
-- The framework will handle error catching and reporting
+The app includes comprehensive error handling for:
 
-### Security
+- Invalid API tokens
+- Permission errors (page/database not shared)
+- Rate limiting (automatic retry with backoff)
+- Network timeouts
+- Invalid block types or properties
 
-- Mark sensitive config fields as `secret: true`
-- Never log API keys or sensitive data
-- Validate all inputs
+### Security Considerations
 
-### Testing
+- Store Integration Tokens securely (marked as sensitive)
+- Share integration only with necessary pages/databases
+- Use read-only integrations when write access isn't needed
+- Regularly rotate integration tokens
+- Monitor integration activity in Notion settings
 
-- Test your blocks manually before releasing
-- Verify configuration schema works as expected
-- Test the complete deployment pipeline
+### Common Patterns
+
+#### Database Automation
+```
+1. Query Database → Filter results
+2. Process each item → Update properties
+3. Create summary page with results
+```
+
+#### Content Generation
+```
+1. Create Page with template
+2. Append Block Children with content
+3. Format Rich Text for styling
+4. Add Comments for collaboration
+```
+
+#### Workspace Sync
+```
+1. Search for existing pages
+2. Compare with external data
+3. Update or Create as needed
+4. Validate Connection periodically
+```
 
 ## Troubleshooting
 
-### Common Issues
+### "Unauthorized" Error
+- Verify your Integration Token is correct
+- Check token hasn't been revoked
+- Ensure token has required permissions
 
-**CI fails on format check**
+### "Object not found" Error
+- Confirm the page/database is shared with your integration
+- Check the ID is correct (use dashes or no dashes consistently)
+- Verify the object hasn't been deleted
 
-```bash
-npm run format
-git add .
-git commit -m "Fix formatting"
-```
+### "Rate limited" Error
+- The app automatically retries with exponential backoff
+- Reduce request frequency if persistent
+- Consider caching frequently accessed data
 
-**Bundle creation fails**
+### Empty Results
+- Check your filter conditions
+- Verify the integration has access to the content
+- Ensure properties exist in the database schema
 
-- Check TypeScript errors: `npm run typecheck`
-- Verify all imports are correct
-- Ensure `main.ts` exports default app
+## API Limitations
 
-**Release creation fails**
+- **Rate Limits**: 3 requests per second average
+- **Pagination**: Maximum 100 results per page
+- **Block Children**: Maximum 100 blocks per append
+- **Property Limits**: Some property types have character limits
+- **Search Delay**: Recently created content may not appear immediately
 
-- Verify branch protection allows GitHub Actions bot
-- Check repository permissions
-- Ensure tag follows semver format (v1.0.0)
+## Contributing
 
-**Version registry not updating**
+We welcome contributions! Please:
 
-- Check GitHub Actions bot has push access to main
-- Verify workflow permissions in repository settings
-- Check for conflicts in versions.json
+1. Fork the repository
+2. Create a feature branch
+3. Add tests for new functionality
+4. Ensure type checking passes
+5. Submit a pull request
 
-## Template Checklist
+## Support
 
-When creating a new app from this template:
+For issues and feature requests, please open an issue in the repository.
 
-- [ ] Run `npm install && npm run setup` for automated setup
-- [ ] Customize app configuration schema in `main.ts`
-- [ ] Implement your block logic in `blocks/`
-- [ ] Update block names, descriptions, and categories
-- [ ] Define proper input/output schemas
-- [ ] Test locally with `npm run typecheck` and `npm run bundle`
-- [ ] Update this README with app-specific information
-- [ ] Set up repository branch protection
-- [ ] Create first release with `git tag v1.0.0`
+## License
 
----
-
-**Template Version**: 1.0.0
+This project is licensed under the MIT License - see the LICENSE file for details.
