@@ -7,39 +7,46 @@ A comprehensive Notion integration that brings the full power of Notion's worksp
 This app provides extensive Notion capabilities organized into functional categories:
 
 ### Page Management
+
 - Create new pages with rich content
 - Retrieve page details and properties
 - Update existing pages
 - Archive or delete pages
 
 ### Database Operations
+
 - Query databases with filters and sorting
 - Create new databases with custom schemas
 - Update database properties
 - Get database schema and structure
 
 ### Content Manipulation
+
 - Append blocks to pages (text, headings, lists, etc.)
 - Update existing blocks
 - Delete blocks
 - Retrieve block children and structure
 
 ### Search and Discovery
+
 - Search across your entire workspace
 - List all accessible databases
 - Filter by object type (page or database)
 
 ### Collaboration
+
 - Create comments on pages and discussions
 - Retrieve comment threads
 - Support for rich text formatting in comments
 
 ### User Management
+
 - Get user information
 - List all workspace users
 - Retrieve bot user details
 
 ### Utility Functions
+
 - Validate API connection
 - Format rich text with advanced styling
 - Parse and transform Notion properties
@@ -80,9 +87,11 @@ This app provides extensive Notion capabilities organized into functional catego
 ### Page Operations
 
 #### Create Page
+
 Creates a new page in your workspace.
 
 **Inputs:**
+
 - `parent` - Parent page or database ID
 - `title` - Page title
 - `properties` - Database properties (if parent is a database)
@@ -91,18 +100,23 @@ Creates a new page in your workspace.
 - `cover` - Cover image URL
 
 #### Get Page
+
 Retrieves complete page information.
 
 **Inputs:**
+
 - `pageId` - The page ID to retrieve
 
 **Output:**
+
 - Full page object with properties, parent, and metadata
 
 #### Update Page
+
 Modifies an existing page's properties.
 
 **Inputs:**
+
 - `pageId` - The page ID to update
 - `properties` - Properties to update
 - `archived` - Archive status
@@ -110,18 +124,22 @@ Modifies an existing page's properties.
 - `cover` - New cover image
 
 #### Delete Page
+
 Permanently deletes or archives a page.
 
 **Inputs:**
+
 - `pageId` - The page ID to delete
 - `permanently` - If true, permanently delete; otherwise archive
 
 ### Database Operations
 
 #### Query Database
+
 Searches and filters database entries.
 
 **Inputs:**
+
 - `databaseId` - The database ID to query
 - `filter` - Filter conditions
 - `sorts` - Sort criteria
@@ -129,37 +147,46 @@ Searches and filters database entries.
 - `pageSize` - Results per page (max: 100)
 
 **Output:**
+
 - `results` - Array of database pages
 - `hasMore` - More results available
 - `nextCursor` - Cursor for next page
 
 #### Create Database
+
 Creates a new database with custom schema.
 
 **Inputs:**
+
 - `parent` - Parent page ID
 - `title` - Database title
 - `properties` - Property schema definition
 
 #### Get Database Schema
+
 Retrieves database structure and properties.
 
 **Inputs:**
+
 - `databaseId` - The database ID
 
 **Output:**
+
 - Complete schema with property definitions
 
 ### Content Blocks
 
 #### Append Block Children
+
 Adds new content blocks to a page.
 
 **Inputs:**
+
 - `blockId` - Parent block or page ID
 - `children` - Array of blocks to append
 
 **Supported Block Types:**
+
 - Paragraph, Heading 1-3
 - Bulleted/Numbered lists
 - To-do items
@@ -170,17 +197,21 @@ Adds new content blocks to a page.
 - And more...
 
 #### Update Block
+
 Modifies an existing content block.
 
 **Inputs:**
+
 - `blockId` - The block ID to update
 - `content` - New block content
 - `archived` - Archive status
 
 #### Get Block Children
+
 Retrieves child blocks of a parent.
 
 **Inputs:**
+
 - `blockId` - Parent block ID
 - `startCursor` - Pagination cursor
 - `pageSize` - Results per page
@@ -188,9 +219,11 @@ Retrieves child blocks of a parent.
 ### Search and Discovery
 
 #### Search
+
 Searches across your entire workspace.
 
 **Inputs:**
+
 - `query` - Search query text
 - `filter` - Filter by object type (page/database)
 - `sort` - Sort direction and timestamp type
@@ -198,25 +231,31 @@ Searches across your entire workspace.
 - `pageSize` - Results per page
 
 #### List Databases
+
 Lists all accessible databases.
 
 **Inputs:**
+
 - `startCursor` - Pagination cursor
 - `pageSize` - Results per page
 
 ### Comments
 
 #### Create Comment
+
 Adds a comment to a page or discussion.
 
 **Inputs:**
+
 - `parent` - Page ID or discussion ID
 - `richText` - Comment content with formatting
 
 #### Get Comments
+
 Retrieves comments from a page or block.
 
 **Inputs:**
+
 - `blockId` - Block or page ID
 - `startCursor` - Pagination cursor
 - `pageSize` - Results per page
@@ -224,44 +263,55 @@ Retrieves comments from a page or block.
 ### User Management
 
 #### Get User
+
 Retrieves information about a specific user.
 
 **Inputs:**
+
 - `userId` - The user ID
 
 #### List Users
+
 Lists all users in the workspace.
 
 **Inputs:**
+
 - `startCursor` - Pagination cursor
 - `pageSize` - Results per page
 
 #### Get Bot User
+
 Retrieves information about the integration bot.
 
 ### Utility Blocks
 
 #### Validate Connection
+
 Tests the API connection and permissions.
 
 **Output:**
+
 - `connected` - Connection status
 - `workspace` - Workspace details
 - `botUser` - Bot user information
 
 #### Format Rich Text
+
 Creates formatted text for Notion.
 
 **Inputs:**
+
 - `text` - Plain text content
 - `bold`, `italic`, `strikethrough`, `underline`, `code` - Formatting options
 - `color` - Text or background color
 - `link` - URL to link to
 
 #### Parse Properties
+
 Extracts and transforms Notion properties.
 
 **Inputs:**
+
 - `properties` - Raw Notion properties object
 - `includeFormulas` - Include computed formula values
 - `includeRollups` - Include rollup calculations
@@ -340,6 +390,7 @@ The app includes comprehensive error handling for:
 ### Common Patterns
 
 #### Database Automation
+
 ```
 1. Query Database → Filter results
 2. Process each item → Update properties
@@ -347,6 +398,7 @@ The app includes comprehensive error handling for:
 ```
 
 #### Content Generation
+
 ```
 1. Create Page with template
 2. Append Block Children with content
@@ -355,6 +407,7 @@ The app includes comprehensive error handling for:
 ```
 
 #### Workspace Sync
+
 ```
 1. Search for existing pages
 2. Compare with external data
@@ -365,21 +418,25 @@ The app includes comprehensive error handling for:
 ## Troubleshooting
 
 ### "Unauthorized" Error
+
 - Verify your Integration Token is correct
 - Check token hasn't been revoked
 - Ensure token has required permissions
 
 ### "Object not found" Error
+
 - Confirm the page/database is shared with your integration
 - Check the ID is correct (use dashes or no dashes consistently)
 - Verify the object hasn't been deleted
 
 ### "Rate limited" Error
+
 - The app automatically retries with exponential backoff
 - Reduce request frequency if persistent
 - Consider caching frequently accessed data
 
 ### Empty Results
+
 - Check your filter conditions
 - Verify the integration has access to the content
 - Ensure properties exist in the database schema
