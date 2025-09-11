@@ -9,6 +9,7 @@ The Notion app for Flows enables seamless integration with Notion workspaces, al
 ### Required Configuration
 
 #### `notionApiKey`
+
 - **Type**: string
 - **Sensitive**: true
 - **Required**: true
@@ -18,12 +19,14 @@ The Notion app for Flows enables seamless integration with Notion workspaces, al
 ### Optional Configuration
 
 #### `defaultWorkspaceName`
+
 - **Type**: string
 - **Required**: false
 - **Description**: Default workspace name for reference and logging
 - **Details**: Helps identify which workspace is connected, useful when managing multiple Notion integrations
 
 #### `retryAttempts`
+
 - **Type**: number
 - **Required**: false
 - **Default**: 3
@@ -31,6 +34,7 @@ The Notion app for Flows enables seamless integration with Notion workspaces, al
 - **Details**: Notion API can have rate limits and occasional timeouts; this configures automatic retry behavior
 
 #### `requestTimeout`
+
 - **Type**: number
 - **Required**: false
 - **Default**: 30000
@@ -42,6 +46,7 @@ The Notion app for Flows enables seamless integration with Notion workspaces, al
 ### Page Management
 
 #### `createPage`
+
 - **Description**: Creates a new page in a specified parent (page or database)
 - **Category**: Pages
 - **Input Config Fields**:
@@ -55,6 +60,7 @@ The Notion app for Flows enables seamless integration with Notion workspaces, al
 - **Output**: Created page object with ID, URL, and properties
 
 #### `updatePage`
+
 - **Description**: Updates an existing page's properties or metadata
 - **Category**: Pages
 - **Input Config Fields**:
@@ -67,6 +73,7 @@ The Notion app for Flows enables seamless integration with Notion workspaces, al
 - **Output**: Updated page object
 
 #### `getPage`
+
 - **Description**: Retrieves a page's metadata and properties
 - **Category**: Pages
 - **Input Config Fields**:
@@ -75,6 +82,7 @@ The Notion app for Flows enables seamless integration with Notion workspaces, al
 - **Output**: Page object with properties and optionally children
 
 #### `deletePage`
+
 - **Description**: Archives (soft deletes) a page
 - **Category**: Pages
 - **Input Config Fields**:
@@ -84,6 +92,7 @@ The Notion app for Flows enables seamless integration with Notion workspaces, al
 ### Database Operations
 
 #### `queryDatabase`
+
 - **Description**: Queries a database with filters and sorting
 - **Category**: Databases
 - **Input Config Fields**:
@@ -95,6 +104,7 @@ The Notion app for Flows enables seamless integration with Notion workspaces, al
 - **Output**: Query results with pages and pagination info
 
 #### `createDatabase`
+
 - **Description**: Creates a new database in a parent page
 - **Category**: Databases
 - **Input Config Fields**:
@@ -105,6 +115,7 @@ The Notion app for Flows enables seamless integration with Notion workspaces, al
 - **Output**: Created database object with ID and URL
 
 #### `updateDatabase`
+
 - **Description**: Updates a database's properties or schema
 - **Category**: Databases
 - **Input Config Fields**:
@@ -115,6 +126,7 @@ The Notion app for Flows enables seamless integration with Notion workspaces, al
 - **Output**: Updated database object
 
 #### `getDatabaseSchema`
+
 - **Description**: Retrieves a database's schema and properties
 - **Category**: Databases
 - **Input Config Fields**:
@@ -124,6 +136,7 @@ The Notion app for Flows enables seamless integration with Notion workspaces, al
 ### Content Management
 
 #### `appendBlockChildren`
+
 - **Description**: Appends blocks to a page or existing block
 - **Category**: Content
 - **Input Config Fields**:
@@ -133,6 +146,7 @@ The Notion app for Flows enables seamless integration with Notion workspaces, al
 - **Output**: Created blocks with IDs
 
 #### `updateBlock`
+
 - **Description**: Updates an existing block's content
 - **Category**: Content
 - **Input Config Fields**:
@@ -142,6 +156,7 @@ The Notion app for Flows enables seamless integration with Notion workspaces, al
 - **Output**: Updated block object
 
 #### `deleteBlock`
+
 - **Description**: Deletes a block and its children
 - **Category**: Content
 - **Input Config Fields**:
@@ -149,6 +164,7 @@ The Notion app for Flows enables seamless integration with Notion workspaces, al
 - **Output**: Confirmation with deleted block ID
 
 #### `getBlockChildren`
+
 - **Description**: Retrieves children of a block or page
 - **Category**: Content
 - **Input Config Fields**:
@@ -160,6 +176,7 @@ The Notion app for Flows enables seamless integration with Notion workspaces, al
 ### Search and Discovery
 
 #### `search`
+
 - **Description**: Searches for pages and databases across the workspace
 - **Category**: Search
 - **Input Config Fields**:
@@ -171,6 +188,7 @@ The Notion app for Flows enables seamless integration with Notion workspaces, al
 - **Output**: Search results with pages/databases
 
 #### `listDatabases`
+
 - **Description**: Lists all accessible databases in the workspace
 - **Category**: Search
 - **Input Config Fields**:
@@ -181,6 +199,7 @@ The Notion app for Flows enables seamless integration with Notion workspaces, al
 ### Comments
 
 #### `createComment`
+
 - **Description**: Creates a comment on a page or discussion thread
 - **Category**: Comments
 - **Input Config Fields**:
@@ -190,6 +209,7 @@ The Notion app for Flows enables seamless integration with Notion workspaces, al
 - **Output**: Created comment object
 
 #### `getComments`
+
 - **Description**: Retrieves comments for a page or block
 - **Category**: Comments
 - **Input Config Fields**:
@@ -201,6 +221,7 @@ The Notion app for Flows enables seamless integration with Notion workspaces, al
 ### User Management
 
 #### `getUser`
+
 - **Description**: Retrieves information about a Notion user
 - **Category**: Users
 - **Input Config Fields**:
@@ -208,6 +229,7 @@ The Notion app for Flows enables seamless integration with Notion workspaces, al
 - **Output**: User object with name, email, avatar
 
 #### `listUsers`
+
 - **Description**: Lists all users in the workspace
 - **Category**: Users
 - **Input Config Fields**:
@@ -216,6 +238,7 @@ The Notion app for Flows enables seamless integration with Notion workspaces, al
 - **Output**: Array of users with pagination
 
 #### `getBotUser`
+
 - **Description**: Gets information about the integration's bot user
 - **Category**: Users
 - **Output**: Bot user object with capabilities and metadata
@@ -223,11 +246,13 @@ The Notion app for Flows enables seamless integration with Notion workspaces, al
 ### Utility Blocks
 
 #### `validateConnection`
+
 - **Description**: Validates the API connection and returns workspace info
 - **Category**: Utility
 - **Output**: Connection status and workspace metadata
 
 #### `formatRichText`
+
 - **Description**: Helper block to format plain text into Notion rich text format
 - **Category**: Utility
 - **Input Config Fields**:
@@ -237,6 +262,7 @@ The Notion app for Flows enables seamless integration with Notion workspaces, al
 - **Output**: Formatted rich text array
 
 #### `parseProperties`
+
 - **Description**: Converts simple key-value pairs to Notion property format
 - **Category**: Utility
 - **Input Config Fields**:
@@ -247,24 +273,28 @@ The Notion app for Flows enables seamless integration with Notion workspaces, al
 ## Implementation Notes
 
 ### Error Handling
+
 - All blocks should handle Notion API errors gracefully
 - Implement exponential backoff for rate limit errors (429)
 - Provide clear error messages that include Notion error codes
 - Handle pagination automatically where applicable
 
 ### Data Formats
+
 - Support both simple and advanced input formats
 - Provide helpers for common content types (paragraphs, headings, lists)
 - Accept both page URLs and IDs as inputs (parse URLs to extract IDs)
 - Support emoji shortcuts for icons (e.g., ":rocket:" → "🚀")
 
 ### Performance Considerations
+
 - Batch operations where possible using Notion's batch endpoints
 - Implement caching for frequently accessed schemas
 - Use cursor-based pagination for large result sets
 - Minimize API calls by combining operations when feasible
 
 ### Security
+
 - Never log or expose the API key in error messages
 - Validate all IDs to ensure proper format
 - Sanitize user inputs before sending to Notion API
@@ -273,6 +303,7 @@ The Notion app for Flows enables seamless integration with Notion workspaces, al
 ## Future Enhancements
 
 ### Phase 2 Features
+
 - Webhook support when Notion API adds it
 - Template system for common page structures
 - Bulk operations for multiple pages/databases
@@ -280,6 +311,7 @@ The Notion app for Flows enables seamless integration with Notion workspaces, al
 - Advanced formula and rollup property support
 
 ### Phase 3 Features
+
 - AI-powered content generation blocks
 - Sync blocks for bidirectional data flow
 - Custom views and filtering interfaces

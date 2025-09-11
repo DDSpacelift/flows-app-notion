@@ -1,4 +1,7 @@
 {
+  "name": "flows-app-notion",
+  "version": "1.0.0",
+  "description": "Notion integration app for Spacelift Flows - automate page creation, database management, and content operations",
   "type": "module",
   "dependencies": {
     "@slflows/sdk": "^0.0.7",

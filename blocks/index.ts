@@ -1,32 +1,116 @@
 /**
- * Block Registry for {{APP_NAME}}
+ * Block Registry for Notion App
  *
  * This file exports all blocks as a dictionary for easy registration.
- *
- * Usage in main.ts:
- *   import { blocks } from "./blocks/index.ts";
- *   export const app: App = {
- *     blocks: Object.values(blocks)
- *   };
- *
- * Adding new blocks:
- * 1. Create your block file (e.g., myBlock.ts)
- * 2. Import and add it to the blocks dictionary below
- * 3. Export it for type safety and external use
+ * Blocks are organized by category for better maintainability.
  */
 
-import { exampleBlock } from "./exampleBlock";
+// Page Management
+import { createPage, getPage, updatePage, deletePage } from "./pages";
+
+// Database Operations
+import {
+  queryDatabase,
+  createDatabase,
+  updateDatabase,
+  getDatabaseSchema,
+} from "./databases";
+
+// Content Management
+import {
+  appendBlockChildren,
+  updateBlock,
+  deleteBlock,
+  getBlockChildren,
+} from "./content";
+
+// Search and Discovery
+import { search, listDatabases } from "./search";
+
+// Comments
+import { createComment, getComments } from "./comments";
+
+// User Management
+import { getUser, listUsers, getBotUser } from "./users";
+
+// Utility
+import {
+  validateConnection,
+  formatRichTextBlock,
+  parseProperties,
+} from "./utility";
 
 /**
  * Dictionary of all available blocks
- * Key: block identifier (for programmatic access)
- * Value: block definition
+ * Organized by functionality for easy discovery
  */
 export const blocks = {
-  example: exampleBlock,
-  // Add more blocks here:
-  // myNewBlock: myNewBlock,
+  // Pages
+  createPage,
+  getPage,
+  updatePage,
+  deletePage,
+
+  // Databases
+  queryDatabase,
+  createDatabase,
+  updateDatabase,
+  getDatabaseSchema,
+
+  // Content
+  appendBlockChildren,
+  updateBlock,
+  deleteBlock,
+  getBlockChildren,
+
+  // Search
+  search,
+  listDatabases,
+
+  // Comments
+  createComment,
+  getComments,
+
+  // Users
+  getUser,
+  listUsers,
+  getBotUser,
+
+  // Utility
+  validateConnection,
+  formatRichText: formatRichTextBlock,
+  parseProperties,
 } as const;
 
 // Named exports for individual blocks (optional, for external imports)
-export { exampleBlock };
+export {
+  // Pages
+  createPage,
+  getPage,
+  updatePage,
+  deletePage,
+  // Databases
+  queryDatabase,
+  createDatabase,
+  updateDatabase,
+  getDatabaseSchema,
+  // Content
+  appendBlockChildren,
+  updateBlock,
+  deleteBlock,
+  getBlockChildren,
+  // Search
+  search,
+  listDatabases,
+  // Comments
+  createComment,
+  getComments,
+  // Users
+  getUser,
+  listUsers,
+  getBotUser,
+  // Utility
+  validateConnection,
+  formatRichTextBlock,
+  parseProperties,
+};
