@@ -51,6 +51,13 @@ This app provides extensive Notion capabilities organized into functional catego
 - Format rich text with advanced styling
 - Parse and transform Notion properties
 
+### Webhook Subscriptions
+
+- Subscribe to page events (created, updated, deleted, moved, locked, unlocked)
+- Subscribe to database events (created, updated, deleted, moved, schema changes)
+- Subscribe to data source events (new in API version 2025-09-03)
+- Subscribe to comment events (created, updated, deleted)
+
 ## Setup
 
 ### 1. Create a Notion Integration
@@ -81,6 +88,28 @@ This app provides extensive Notion capabilities organized into functional catego
 3. Click "Invite" and search for your integration name
 4. Select your integration and click "Invite"
 5. Repeat for all pages/databases you want to automate
+
+### 4. Configure Webhooks (Optional)
+
+To receive real-time notifications of changes in your Notion workspace:
+
+1. Get your webhook URL from the Flows app's HTTP endpoint (shown in the app details)
+2. In Notion, navigate to your integration settings → Webhooks tab → Click "+ Create a subscription"
+3. Configure the webhook:
+   - Paste your Flows webhook URL
+   - Select the event types you want to subscribe to (page, database, data_source, or comment events)
+   - Select the pages/databases to monitor
+4. Notion will send a verification token to your webhook URL
+5. Copy the verification token from the Flows app signals (it will appear automatically)
+6. Paste the token into Notion's verification UI to complete the setup
+7. Use webhook subscription blocks in your flows to react to events
+
+**Webhook Event Types:**
+
+- **Page Events**: page.created, page.properties_updated, page.content_updated, page.moved, page.deleted, page.undeleted, page.locked, page.unlocked
+- **Database Events**: database.created, database.content_updated, database.moved, database.deleted, database.undeleted, database.schema_updated (deprecated in 2025-09-03)
+- **Data Source Events**: data_source.content_updated, data_source.created, data_source.deleted, data_source.moved, data_source.schema_updated, data_source.undeleted (new in 2025-09-03)
+- **Comment Events**: comment.created, comment.updated, comment.deleted
 
 ## Block Reference
 
