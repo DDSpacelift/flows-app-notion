@@ -2,43 +2,49 @@
  * Block Registry for Notion App
  *
  * This file exports all blocks as a dictionary for easy registration.
- * Blocks are organized by category for better maintainability.
+ * Blocks are organized by category directories for better maintainability.
  */
 
 // Page Management
-import { createPage, getPage, updatePage, deletePage } from "./pages";
+import { createPage } from "./pages/createPage";
+import { getPage } from "./pages/getPage";
+import { updatePage } from "./pages/updatePage";
+import { deletePage } from "./pages/deletePage";
 
 // Database Operations
-import {
-  queryDatabase,
-  createDatabase,
-  updateDatabase,
-  getDatabaseSchema,
-} from "./databases";
+import { queryDatabase } from "./databases/queryDatabase";
+import { createDatabase } from "./databases/createDatabase";
+import { updateDatabase } from "./databases/updateDatabase";
+import { getDatabaseSchema } from "./databases/getDatabaseSchema";
 
 // Content Management
-import {
-  appendBlockChildren,
-  updateBlock,
-  deleteBlock,
-  getBlockChildren,
-} from "./content";
+import { appendBlockChildren } from "./content/appendBlockChildren";
+import { updateBlock } from "./content/updateBlock";
+import { deleteBlock } from "./content/deleteBlock";
+import { getBlockChildren } from "./content/getBlockChildren";
 
 // Search and Discovery
-import { search, listDatabases } from "./search";
+import { search } from "./search/search";
+import { listDatabases } from "./search/listDatabases";
 
 // Comments
-import { createComment, getComments } from "./comments";
+import { createComment } from "./comments/createComment";
+import { getComments } from "./comments/getComments";
 
 // User Management
-import { getUser, listUsers, getBotUser } from "./users";
+import { getUser } from "./users/getUser";
+import { listUsers } from "./users/listUsers";
+import { getBotUser } from "./users/getBotUser";
 
 // Utility
-import {
-  validateConnection,
-  formatRichTextBlock,
-  parseProperties,
-} from "./utility";
+import { formatRichTextBlock } from "./utility/formatRichText";
+import { parseProperties } from "./utility/parseProperties";
+
+// Webhook Subscriptions
+import { pageSubscription } from "./subscriptions/pageSubscription";
+import { databaseSubscription } from "./subscriptions/databaseSubscription";
+import { dataSourceSubscription } from "./subscriptions/dataSourceSubscription";
+import { commentSubscription } from "./subscriptions/commentSubscription";
 
 /**
  * Dictionary of all available blocks
@@ -77,9 +83,14 @@ export const blocks = {
   getBotUser,
 
   // Utility
-  validateConnection,
   formatRichText: formatRichTextBlock,
   parseProperties,
+
+  // Webhook Subscriptions
+  pageSubscription,
+  databaseSubscription,
+  dataSourceSubscription,
+  commentSubscription,
 } as const;
 
 // Named exports for individual blocks (optional, for external imports)
@@ -110,7 +121,11 @@ export {
   listUsers,
   getBotUser,
   // Utility
-  validateConnection,
   formatRichTextBlock,
   parseProperties,
+  // Webhook Subscriptions
+  pageSubscription,
+  databaseSubscription,
+  dataSourceSubscription,
+  commentSubscription,
 };
