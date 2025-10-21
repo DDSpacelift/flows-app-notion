@@ -137,11 +137,14 @@ To install:
       if (storedToken) {
         const isValid = await verifyNotionWebhook(
           input.request,
-          storedToken as string
+          storedToken as string,
         );
 
         if (!isValid) {
-          console.warn("Invalid webhook signature for request:", input.request.requestId);
+          console.warn(
+            "Invalid webhook signature for request:",
+            input.request.requestId,
+          );
           await http.respond(input.request.requestId, {
             statusCode: 403,
             body: { error: "Invalid webhook signature" },
