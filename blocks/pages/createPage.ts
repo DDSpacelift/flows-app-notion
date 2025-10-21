@@ -73,6 +73,22 @@ export const createPage: AppBlock = {
           },
           required: false,
         },
+        templateType: {
+          name: "Template Type",
+          description: "Type of template to use",
+          type: {
+            type: "string",
+            enum: ["none", "default", "template_id"],
+          },
+          required: false,
+        },
+        templateId: {
+          name: "Template ID",
+          description:
+            "Template page ID (required if templateType is 'template_id')",
+          type: "string",
+          required: false,
+        },
       },
       async onEvent(input) {
         const { notionApiKey } = input.app.config;
@@ -84,6 +100,8 @@ export const createPage: AppBlock = {
           content,
           icon,
           cover,
+          templateType,
+          templateId,
         } = input.event.inputConfig;
 
         const cleanParentId = parseNotionId(parentId);
@@ -125,9 +143,22 @@ export const createPage: AppBlock = {
           requestBody.cover = cover;
         }
 
-        // Add content blocks if provided
-        if (content && Array.isArray(content)) {
+        // Add content blocks if provided (not allowed when using a template)
+        if (content && Array.isArray(content) && !templateType) {
           requestBody.children = content;
+        }
+
+        // Add template configuration if provided
+        if (templateType) {
+          if (templateType === "default") {
+            requestBody.template = { type: "default" };
+          } else if (templateType === "template_id" && templateId) {
+            const cleanTemplateId = parseNotionId(templateId);
+            requestBody.template = {
+              type: "template_id",
+              template_id: cleanTemplateId,
+            };
+          }
         }
 
         const response = await callNotionApi(
