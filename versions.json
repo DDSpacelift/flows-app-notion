@@ -1,6 +1,11 @@
 {
   "versions": [
     {
+      "version": "1.2.0",
+      "artifactUrl": "https://github.com/DDSpacelift/flows-app-notion/releases/download/v1.2.0/bundle.tar.gz",
+      "artifactChecksum": "sha256:428452fff8b81dc76f820d6d59c97d42fbfcbf2bc1faf65162ba17d6df5a5451"
+    },
+    {
       "version": "1.1.0",
       "artifactUrl": "https://github.com/DDSpacelift/flows-app-notion/releases/download/v1.1.0/bundle.tar.gz",
       "artifactChecksum": "sha256:6ec8d98b52153cddb9a73502dc1e762ba476dc00700f1be3aaf41de64bd61fff"
